@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
 const Sequelize = require('sequelize');
-const epilogue = require('epilogue'), ForbiddenError = epilogue.Errors.ForbiddenError;
+const finale = require('finale-rest');
 const app = express();
 const port = 3000;
 
@@ -21,7 +21,7 @@ const oidc = new ExpressOIDC({
     issuer: `${process.env.OKTA_ORG_URL}/oauth2/default`,
     client_id: process.env.OKTA_CLIENT_ID,
     client_secret: process.env.OKTA_CLIENT_SECRET,
-    redirect_uri: process.env.REDIRECT_URL,
+    appBaseUrl: process.env.BASE_URL,
     scope: 'openid profile',
     routes: {
         callback: {
@@ -67,9 +67,9 @@ const Post = database.define('posts', {
     content: Sequelize.TEXT,
 });
 
-epilogue.initialize({ app, sequelize: database });
+finale.initialize({ app, sequelize: database });
 
-const PostResource = epilogue.resource({
+const PostResource = finale.resource({
     model: Post,
     endpoints: ['/posts', '/posts/:id'],
 });

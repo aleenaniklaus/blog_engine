@@ -1,13 +1,13 @@
 {
 	"dependencies": {
-		"body-parser": "^1.18.3",
-		"cors": "^2.8.5",
-		"dotenv": "6.x.x",
+		"body-parser": "1.x.x",
+		"cors": "2.x.x",
+		"dotenv": "8.x.x",
 		"express": ">=4.x.x",
 		"express-session": "1.x.x",
-		"@okta/oidc-middleware": "1.x.x",
+		"@okta/oidc-middleware": "2.x.x",
 		"sqlite3": "4.x.x",
 		"sequelize": ">=5.x.x",
-		"epilogue": "0.x.x"
+		"finale-rest": "1.x.x"
 	}
 }
