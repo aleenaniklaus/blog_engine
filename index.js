@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
 const Sequelize = require('sequelize');
-const finale = require('finale-rest');
 const app = express();
 const port = 3000;
 const okta = require('@okta/okta-sdk-nodejs');
@@ -49,7 +48,7 @@ app.get('/home', (req, res) => {
 })
 
 app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
-    console.log(req.userContext)
+    // console.log(req.userContext.userinfo.sub)
     res.sendFile(path.join(__dirname, './public/admin.html'))
 })
 
@@ -90,35 +89,205 @@ app.post('/register', async (req, res) => {
     }
 })
 
+
+
+/*** DATABASE ***/
 const database = new Sequelize({
     dialect: 'sqlite',
     storage: './db.sqlite',
     operatorsAliases: false,
 });
 
-const Post = database.define('posts', {
+const Blog = database.define('blogs', {
     user: Sequelize.STRING,
     title: Sequelize.STRING,
-    content: Sequelize.TEXT,
+    description: Sequelize.TEXT
 })
-// TODO: replace finale with RESTful API replacement
-finale.initialize({ app, sequelize: database })
-
-const PostResource = finale.resource({
-    model: Post,
-    endpoints: ['/posts', '/posts/:id'],
+const Post = database.define('posts', {
+    title: Sequelize.STRING,
+    content: Sequelize.TEXT
+})
+const Comment = database.define('comments', {
+    user: Sequelize.STRING,
+    content: Sequelize.TEXT
 })
 
-PostResource.all.auth(function (req, res, context) {
-    return new Promise(function (resolve, reject) {
-        if (!req.isAuthenticated()) {
-            res.status(401).send({ message: "Unauthorized" })
-            resolve(context.stop)
-        } else {
-            resolve(context.continue)
+Blog.hasMany(Post)
+Post.hasMany(Comment)
+
+/*** END DATABASE ***/
+
+
+
+
+/*** DEFINE REST API ***/
+
+
+
+// Return all blogs
+app.get('/blogs', oidc.ensureAuthenticated(), (req, res) => {
+    Blog.findAll({
+        where: {
+            user: req.userContext.userinfo.sub
         }
+    }).then((blogs) => {
+        res.json(blogs)
     })
 })
+
+// Create new blog
+app.post('/blogs', oidc.ensureAuthenticated(), (req, res) => {
+    Blog.create({
+        user: req.userContext.userinfo.sub, 
+        title: req.body.title,
+        description: req.body.description
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Update blog 
+app.put('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
+    Blog.update({
+        title: req.body.title,
+        description: req.body.description
+    }, {
+        where: { 
+            user: req.userContext.userinfo.sub,
+            id: req.params.blog
+        }
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Delete blog 
+app.delete('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
+    Blog.destroy({
+        where: { 
+            user: req.userContext.userinfo.sub,
+            id: req.params.blog
+        }
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+
+
+
+
+// Return blog title and description
+app.get('/blogs/:blog', (req, res) => {
+    Blog.findAll({
+        where: { 
+            id: res.params.blog
+        }
+    }).then((blogs) => {
+        res.json(blogs)
+    })
+})
+
+// Return blog posts in blog
+app.get('/blogs/:blog/posts', (req, res) => {
+    Post.findAll({
+        where: { 
+            blogId: res.params.blog
+        }
+    }).then((posts) => {
+        res.json(posts)
+    })
+})
+
+// Create blog post
+app.post('/blogs/:blog/posts', oidc.ensureAuthenticated(), (req, res) => {
+    Post.create({
+        title: req.body.title,
+        content: req.body.content
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Return blog post title and content
+app.get('/blogs/:blog/posts/:post', (req, res) => {
+    Post.findAll({
+        where: { 
+            id: res.params.post
+        }
+    }).then((posts) => {
+        res.json(posts)
+    })
+})
+
+// Update blog post title and content
+app.post('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) => {
+    Post.update({
+        title: req.body.title,
+        content: req.body.content
+    }, {
+        where: { 
+            user: req.userContext.userinfo.sub,
+            id: req.params.post
+        }
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Return comments of blog post
+app.get('/blogs/:blog/posts/:post/comments', (req, res) => {
+    Comment.findAll({
+        where: { 
+            postId: res.params.post
+        }
+    }).then((comments) => {
+        res.json(comments)
+    })
+})
+
+// Create comment on blog post
+app.post('/blogs/:blog/posts/:post/comments', oidc.ensureAuthenticated(), (req, res) => {
+    Comment.create({
+        user: req.userContext.userinfo.sub, 
+        content: req.body.content
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Update comment
+app.post('/blogs/:blog/posts/:post/comments/:comment', oidc.ensureAuthenticated(), (req, res) => {
+    Comment.update({
+        content: req.body.content
+    }, {
+        where: { 
+            user: req.userContext.userinfo.sub,
+            id: req.params.comment
+        }
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+/*** END REST API ***/
+
+
+
 
 database.sync().then(() => {
     oidc.on('ready', () => {
