@@ -1,14 +1,14 @@
-require('dotenv').config({ path: process.cwd() + '/environment' });
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const { ExpressOIDC } = require('@okta/oidc-middleware');
-const Sequelize = require('sequelize');
-const app = express();
-const port = 3000;
-const okta = require('@okta/okta-sdk-nodejs');
+require('dotenv').config({ path: process.cwd() + '/environment' })
+const express = require('express')
+const path = require('path')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const { ExpressOIDC } = require('@okta/oidc-middleware')
+const Sequelize = require('sequelize')
+const app = express()
+const port = 3000
+const okta = require('@okta/okta-sdk-nodejs')
 
 // session support is required to use ExpressOIDC
 app.use(session({
