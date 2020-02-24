@@ -21,3 +21,6 @@ TODO:
 
 Single blog page tutorial attribution:
 https://www.digitalocean.com/community/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes
+
+Registration page tutorial attribution (not built for React):
+https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes

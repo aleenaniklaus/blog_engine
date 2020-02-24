@@ -5,9 +5,10 @@
 		"dotenv": "8.x.x",
 		"express": ">=4.x.x",
 		"express-session": "1.x.x",
-		"@okta/oidc-middleware": "2.x.x",
+		"@okta/oidc-middleware": "1.x.x",
 		"sqlite3": "4.x.x",
 		"sequelize": ">=5.x.x",
-		"finale-rest": "1.x.x"
+		"finale-rest": "1.x.x",
+		"@okta/okta-sdk-nodejs": "3.x.x"
 	}
 }
