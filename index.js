@@ -43,6 +43,11 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/landing-page.html'))
+})
+
 app.get('/home', (req, res) => {
    res.sendFile(path.join(__dirname, './public/home.html'))
 })
@@ -52,18 +57,29 @@ app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
     res.sendFile(path.join(__dirname, './public/admin.html'))
 })
 
-app.get('/logout', (req, res) => {
-    req.logout()
-    res.redirect('/home')
+app.get('/admin/:blogId', oidc.ensureAuthenticated(), (req, res) => {
+    res.sendFile(path.join(__dirname, './public/blog-posts.html'));
 })
 
-app.get('/', (req, res) => {
-    res.redirect('/home')
-})
+app.get('/logout', (req, res) => {
+    if (req.userContext) {
+      const idToken = req.userContext.tokens.id_token
+      const to = encodeURI(process.env.HOST_URL)
+      const params = `id_token_hint=${idToken}&post_logout_redirect_uri=${to}`
+      req.logout()
+      res.redirect(
+        `${process.env.OKTA_ORG_URL}/oauth2/default/v1/logout?${params}`
+      )
+    } else {
+      res.redirect('/')
+    }
+  })
 
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, './public/register.html'));
-});
+})
+
+
 
 app.post('/register', async (req, res) => {
     // const { body } = req;
@@ -124,7 +140,7 @@ Post.hasMany(Comment)
 
 
 
-// Return all blogs
+// Return all of a user's blogs
 app.get('/blogs', oidc.ensureAuthenticated(), (req, res) => {
     Blog.findAll({
         where: {
@@ -179,6 +195,63 @@ app.delete('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
     })
 })
 
+// Return blog posts in blog
+app.get('/blogs/:blog/posts', (req, res) => {
+    Post.findAll({
+        where: { 
+            blogId: req.params.blog
+        }
+    }).then((posts) => {
+        res.json(posts)
+    })
+})
+
+// Create new blog post
+app.post('/blogs/:blog/posts', oidc.ensureAuthenticated(), (req, res) => {
+    Post.create({
+        blogId: req.params.blog,
+        title: req.body.title,
+        content: req.body.content
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Update blog post
+app.put('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) => {
+    Post.update({
+        title: req.body.title,
+        content: req.body.content
+    }, {
+        where: { 
+            user: req.userContext.userinfo.sub,
+            id: req.params.post
+        }
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+// Delete blog post
+app.delete('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) => {
+    Post.destroy({
+        where: { 
+            user: req.userContext.userinfo.sub,
+            id: req.params.post
+        }
+    }).then(() => {
+        res.json({
+            status: 'ok'
+        })
+    })
+})
+
+
+
 
 
 
@@ -187,33 +260,10 @@ app.delete('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
 app.get('/blogs/:blog', (req, res) => {
     Blog.findAll({
         where: { 
-            id: res.params.blog
+            id: req.params.blog
         }
     }).then((blogs) => {
         res.json(blogs)
-    })
-})
-
-// Return blog posts in blog
-app.get('/blogs/:blog/posts', (req, res) => {
-    Post.findAll({
-        where: { 
-            blogId: res.params.blog
-        }
-    }).then((posts) => {
-        res.json(posts)
-    })
-})
-
-// Create blog post
-app.post('/blogs/:blog/posts', oidc.ensureAuthenticated(), (req, res) => {
-    Post.create({
-        title: req.body.title,
-        content: req.body.content
-    }).then(() => {
-        res.json({
-            status: 'ok'
-        })
     })
 })
 

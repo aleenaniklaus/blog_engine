@@ -18,19 +18,22 @@ FEATURES CREATED:
 - mulitple bloggers each with their own 'blog space'
 - bloggers can create, delete, edit & retrieve blogs
 - get, post, put, delete API built
-TODO:
 - create posts in blog
+- fixed CSS/Bootstrap for registration page
+- landing page started
+TODO:
 - allow commenting on blog posts
 - login for commenting - new registration page
 - theming for bloggers
-- refactor React code
-- fix CSS/Bootstrap for registration page
 STRETCH:
 - create 'reader' user who logs in to comment on posts
-- homepage for blog engine
+- landing page for blog engine
 
 Single blog page tutorial attribution:
 https://www.digitalocean.com/community/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes
 
 Registration page tutorial attribution (not built for React):
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes
+
+Logout functionality:
+https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes#add-a-logout-route
