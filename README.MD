@@ -40,12 +40,14 @@ STRETCH:
 ### ATTRIBUTION
 Single blog page tutorial attribution:
 https://www.digitalocean.com/community/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes
+
 Changes from this attribution:
  - Database tables 
  - Not using `epilogue` (created RESTful API to have control over the user)
 
 Registration page tutorial attribution:
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes
+
 Changes from this attribution:
  - Attribution uses `mustache`, whereas this implementation uses `React`
  - No use of `render`
