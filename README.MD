@@ -39,7 +39,7 @@ STRETCH:
 
 
 ### ATTRIBUTION
-Single blog page tutorial attribution:
+#### Single blog page tutorial:
 
 https://www.digitalocean.com/community/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes
 
@@ -47,7 +47,7 @@ Changes from this attribution:
  - Database tables 
  - Not using `epilogue` (created RESTful API to have control over the user)
 
-Registration page tutorial attribution:
+#### Registration page tutorial:
 
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes
 
@@ -57,6 +57,6 @@ Changes from this attribution:
  - Instead of `'/'` redirecting to `'/register'` we explicitly create a route to `'/register'`
     - Other logic is changed in this accordingly in `index.js` line 86-112
 
-Logout functionality (virtually no change):
+#### Logout functionality (virtually no change):
 
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes#add-a-logout-route
