@@ -23,12 +23,14 @@ FEATURES CREATED:
 - landing/home page generates 3 random blogs and displays to any user (logged in or not)
 - viewing and commenting on blog posts allowed for users logged in
 - viewing of posts/comments (for users not logged in)
+
 TODO:
 - theming for bloggers
 - refactor code - as per necessary! (avoid premature optimization)
 - unit tests/error handling check/creation
 - explanatory comments at top of files
 - docs on application design
+
 STRETCH:
 - ERD & Swim lane diagrams
 - login for commenting - new registration page
