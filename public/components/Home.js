@@ -1,12 +1,4 @@
 const e = React.createElement;
-// import AppNav from "./AppNav"
-
-const AppNav = () => (
-   <nav class="navbar navbar-dark bg-dark">
-       <a class="navbar-brand" href="#">My Blog Space</a>
-       <a role="button" class="btn btn-outline-info navbar-btn" href="/login">Login</a>
-   </nav>
-) 
 
 function Home(){
     return (

@@ -52,6 +52,14 @@ app.get('/home', (req, res) => {
    res.sendFile(path.join(__dirname, './public/home.html'))
 })
 
+app.get('/b/:blogId', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/blog.html'))
+})
+
+app.get('/p/:postId', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/post.html'))
+})
+
 app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
     // console.log(req.userContext.userinfo.sub)
     res.sendFile(path.join(__dirname, './public/admin.html'))
@@ -63,27 +71,25 @@ app.get('/admin/:blogId', oidc.ensureAuthenticated(), (req, res) => {
 
 app.get('/logout', (req, res) => {
     if (req.userContext) {
-      const idToken = req.userContext.tokens.id_token
-      const to = encodeURI(process.env.HOST_URL)
-      const params = `id_token_hint=${idToken}&post_logout_redirect_uri=${to}`
-      req.logout()
-      res.redirect(
+        const idToken = req.userContext.tokens.id_token
+        const to = encodeURI(process.env.HOST_URL)
+        const params = `id_token_hint=${idToken}&post_logout_redirect_uri=${to}`
+        req.logout()
+        res.redirect(
         `${process.env.OKTA_ORG_URL}/oauth2/default/v1/logout?${params}`
-      )
+        )
     } else {
-      res.redirect('/')
+        res.redirect('/')
     }
-  })
+})
 
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, './public/register.html'));
 })
 
-
-
 app.post('/register', async (req, res) => {
     // const { body } = req;
-    console.log(req.body)
+    // console.log(req.body)
     try {
         await client.createUser({
             profile: {
@@ -105,6 +111,11 @@ app.post('/register', async (req, res) => {
     }
 })
 
+app.get('/user', (req, res) => {
+    res.json({
+        loggedIn: (req.userContext !== undefined)
+    })
+})
 
 
 /*** DATABASE ***/
@@ -195,6 +206,21 @@ app.delete('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
     })
 })
 
+// Return blog title and description
+app.get('/blogs/:blog', (req, res) => {
+    Blog.findAll({
+        where: { 
+            id: req.params.blog
+        }
+    }).then((blogs) => {
+        blog = {}
+        if(blogs.length === 1){
+            blog = blogs[0]
+        }
+        res.json(blog)
+    })
+})
+
 // Return blog posts in blog
 app.get('/blogs/:blog/posts', (req, res) => {
     Post.findAll({
@@ -250,48 +276,18 @@ app.delete('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) =>
     })
 })
 
-
-
-
-
-
-
-// Return blog title and description
-app.get('/blogs/:blog', (req, res) => {
-    Blog.findAll({
-        where: { 
-            id: req.params.blog
-        }
-    }).then((blogs) => {
-        res.json(blogs)
-    })
-})
-
 // Return blog post title and content
 app.get('/blogs/:blog/posts/:post', (req, res) => {
     Post.findAll({
         where: { 
-            id: res.params.post
-        }
-    }).then((posts) => {
-        res.json(posts)
-    })
-})
-
-// Update blog post title and content
-app.post('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) => {
-    Post.update({
-        title: req.body.title,
-        content: req.body.content
-    }, {
-        where: { 
-            user: req.userContext.userinfo.sub,
             id: req.params.post
         }
-    }).then(() => {
-        res.json({
-            status: 'ok'
-        })
+    }).then((posts) => {
+        post = {}
+        if(posts.length === 1){
+            post = posts[0]
+        }
+        res.json(post)
     })
 })
 
@@ -299,7 +295,7 @@ app.post('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) => {
 app.get('/blogs/:blog/posts/:post/comments', (req, res) => {
     Comment.findAll({
         where: { 
-            postId: res.params.post
+            postId: req.params.post
         }
     }).then((comments) => {
         res.json(comments)
@@ -309,6 +305,7 @@ app.get('/blogs/:blog/posts/:post/comments', (req, res) => {
 // Create comment on blog post
 app.post('/blogs/:blog/posts/:post/comments', oidc.ensureAuthenticated(), (req, res) => {
     Comment.create({
+        postId: req.params.post,
         user: req.userContext.userinfo.sub, 
         content: req.body.content
     }).then(() => {
@@ -333,6 +330,14 @@ app.post('/blogs/:blog/posts/:post/comments/:comment', oidc.ensureAuthenticated(
         })
     })
 })
+
+
+
+
+
+
+
+
 
 /*** END REST API ***/
 

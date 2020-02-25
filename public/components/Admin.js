@@ -1,14 +1,7 @@
 'use strict';
 const e = React.createElement;
 
-const AppNav = () => (
-   <nav className="navbar navbar-dark bg-dark">
-       <a className="navbar-brand" href="#">My Blog Space</a>
-       <a role="button" className="btn btn-outline-info navbar-btn" href="/logout">Logout</a>
-   </nav>
-)
-
-const Card = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) => {
+const Blog = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) => {
    const { id, title, description, editMode } = item;
 
    if (editMode) {
@@ -33,11 +26,11 @@ const Card = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) =>
        return (
            <div class="card mt-4" Style="width: 100%;">
                <div class="card-body">
-                <a href={"/admin/" + id}>Posts</a>
-                   <h5 class="card-title">{title || "No Title"}</h5>
+                    <a href={"/b/" + id}><h5 class="card-title">{title || "No Title"}</h5></a>
                    <p class="card-text">{description || "No Description"}</p>
                    <button type="button" class="btn btn-outline-danger btn-sm" onClick={handleDelete}>Delete</button>
                    <button type="submit" class="btn btn-info btn-sm ml-2" onClick={handleEdit}>Edit</button>
+                   <a className="btn btn-outline-dark btn-sm ml-2 float-right" href={"/admin/" + id}>Posts</a>
                </div>
            </div>
        )
@@ -137,7 +130,7 @@ class Admin extends React.Component {
                {
                 this.state.data.length > 0 ? (
                     this.state.data.map(item =>
-                        <Card item={item}
+                        <Blog item={item}
                             handleSubmit={this.handleSubmit}
                             handleEdit={this.handleEdit.bind(this, item.id)}
                             handleDelete={this.handleDelete.bind(this, item.id)}
