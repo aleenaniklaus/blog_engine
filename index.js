@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/landing-page.html'))
+    res.sendFile(path.join(__dirname, './public/home.html'))
 })
 
 app.get('/home', (req, res) => {
@@ -144,7 +144,11 @@ Post.hasMany(Comment)
 
 /*** END DATABASE ***/
 
-
+// Returns random blogs for home page
+app.get('/random-blogs', async (req, res) => {
+    const [results, metadata] = await database.query("SELECT * FROM blogs ORDER BY RANDOM() LIMIT 3")
+    res.json(results)
+})
 
 
 /*** DEFINE REST API ***/

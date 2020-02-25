@@ -1,5 +1,4 @@
 'use strict'
-const e = React.createElement
 
 const Post = ({ item }) => {
    const { id, title, content } = item
@@ -47,7 +46,7 @@ class Blog extends React.Component {
        return (
            <div>
                 <AppNav />
-                <div class="card mt-4" Style="width: 100%;">
+                <div class="card mt-4" Style="width: 100%; background-color: #e3f2fd">
                     <div class="card-body">
                         <a href={"/b/" + this.state.blog.id}><h5 class="card-title">{this.state.blog.title || "No Title"}</h5></a>
                         <p class="card-text">{this.state.blog.description || "No Description"}</p>
@@ -69,4 +68,4 @@ class Blog extends React.Component {
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(e(Blog), domContainer);
+ReactDOM.render(React.createElement(Blog), domContainer);

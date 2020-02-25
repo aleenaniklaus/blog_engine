@@ -1,5 +1,4 @@
 'use strict'
-const e = React.createElement
 
 const Comment = ({ item }) => {
    const { id, user, content } = item
@@ -121,4 +120,4 @@ class Post extends React.Component {
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(e(Post), domContainer);
+ReactDOM.render(React.createElement(Post), domContainer);

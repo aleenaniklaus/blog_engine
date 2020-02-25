@@ -20,8 +20,8 @@ class AppNav extends React.Component {
 
    render() {
        return (
-            <nav class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">My Blog Space</a>
+            <nav className="navbar navbar-dark bg-dark">
+                <div class="navbar-brand">My Blog Space</div>
                {
                 this.state.user.loggedIn == true ? (
                     <span>

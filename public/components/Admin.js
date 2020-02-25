@@ -1,5 +1,4 @@
 'use strict';
-const e = React.createElement;
 
 const Blog = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) => {
    const { id, title, description, editMode } = item;
@@ -149,4 +148,4 @@ class Admin extends React.Component {
 }
 
 const domContainer = document.querySelector('#root');
-ReactDOM.render(e(Admin), domContainer);
+ReactDOM.render(React.createElement(Admin), domContainer);
