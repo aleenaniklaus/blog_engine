@@ -23,22 +23,24 @@ FEATURES CREATED:
 - landing/home page generates 3 random blogs and displays to any user (logged in or not)
 - viewing and commenting on blog posts allowed for users logged in
 - viewing of posts/comments (for users not logged in)
+- refactored code - as per necessary, avoided premature optimization
+- explanatory comments at top of files
 
 TODO:
 - theming for bloggers
-- refactor code - as per necessary! (avoid premature optimization)
 - unit tests/error handling check/creation
-- explanatory comments at top of files
 - docs on application design
 
 STRETCH:
 - ERD & Swim lane diagrams
+- Header changes per page
 - login for commenting - new registration page
 - API docs
 
 
 ### ATTRIBUTION
 Single blog page tutorial attribution:
+
 https://www.digitalocean.com/community/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes
 
 Changes from this attribution:
@@ -46,6 +48,7 @@ Changes from this attribution:
  - Not using `epilogue` (created RESTful API to have control over the user)
 
 Registration page tutorial attribution:
+
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes
 
 Changes from this attribution:
@@ -55,4 +58,5 @@ Changes from this attribution:
     - Other logic is changed in this accordingly in `index.js` line 86-112
 
 Logout functionality (virtually no change):
+
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes#add-a-logout-route

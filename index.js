@@ -1,3 +1,20 @@
+/*****
+ * 
+ *  Backend using Node.js/Express.jsfor Blog Engine
+ *  and uses Okta for authenticaion.
+ *  SQLite for easy-to-use and easy-setup database. 
+ *  All routes and database calls are in this file.
+ * 
+ *  Future improvements:
+ *  - refactor into different files, according to 
+ *    DB/routes etc. this may also be done when the file
+ *    gets too large.
+ *  
+ * 
+ *****/
+
+
+
 require('dotenv').config({ path: process.cwd() + '/environment' })
 const express = require('express')
 const path = require('path')
@@ -9,6 +26,13 @@ const Sequelize = require('sequelize')
 const app = express()
 const port = 3000
 const okta = require('@okta/okta-sdk-nodejs')
+
+
+/*****
+ * 
+ * AUTH
+ * 
+ *****/
 
 // session support is required to use ExpressOIDC
 app.use(session({
@@ -41,8 +65,21 @@ app.use(cors())
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
 
+/*****
+ * 
+ * END AUTH
+ * 
+ *****/
+
+
 app.use(express.static(path.join(__dirname, 'public')))
 
+
+/****
+ * 
+ * ROUTES
+ * 
+ ****/
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/home.html'))
@@ -61,12 +98,11 @@ app.get('/p/:postId', (req, res) => {
 })
 
 app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
-    // console.log(req.userContext.userinfo.sub)
     res.sendFile(path.join(__dirname, './public/admin.html'))
 })
 
 app.get('/admin/:blogId', oidc.ensureAuthenticated(), (req, res) => {
-    res.sendFile(path.join(__dirname, './public/blog-posts.html'));
+    res.sendFile(path.join(__dirname, './public/blog-posts.html'))
 })
 
 app.get('/logout', (req, res) => {
@@ -84,12 +120,10 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/register.html'));
+    res.sendFile(path.join(__dirname, './public/register.html'))
 })
 
 app.post('/register', async (req, res) => {
-    // const { body } = req;
-    // console.log(req.body)
     try {
         await client.createUser({
             profile: {
@@ -118,12 +152,26 @@ app.get('/user', (req, res) => {
 })
 
 
-/*** DATABASE ***/
+/****
+ * 
+ * END ROUTES
+ * 
+ ****/
+
+
+
+
+/*** 
+ * 
+ * DATABASE 
+ * 
+ * ***/
+
 const database = new Sequelize({
     dialect: 'sqlite',
     storage: './db.sqlite',
     operatorsAliases: false,
-});
+})
 
 const Blog = database.define('blogs', {
     user: Sequelize.STRING,
@@ -142,7 +190,12 @@ const Comment = database.define('comments', {
 Blog.hasMany(Post)
 Post.hasMany(Comment)
 
-/*** END DATABASE ***/
+/*** 
+ * 
+ * END DATABASE 
+ * 
+ * ***/
+
 
 // Returns random blogs for home page
 app.get('/random-blogs', async (req, res) => {
@@ -151,9 +204,14 @@ app.get('/random-blogs', async (req, res) => {
 })
 
 
-/*** DEFINE REST API ***/
+/*** 
+ * 
+ * DEFINE REST API 
+ * 
+ * ***/
 
 
+/***** BLOG CALLS ******/
 
 // Return all of a user's blogs
 app.get('/blogs', oidc.ensureAuthenticated(), (req, res) => {
@@ -225,6 +283,9 @@ app.get('/blogs/:blog', (req, res) => {
     })
 })
 
+
+/***** POST CALLS ******/
+
 // Return blog posts in blog
 app.get('/blogs/:blog/posts', (req, res) => {
     Post.findAll({
@@ -295,6 +356,8 @@ app.get('/blogs/:blog/posts/:post', (req, res) => {
     })
 })
 
+/***** COMMENT CALLS ******/
+
 // Return comments of blog post
 app.get('/blogs/:blog/posts/:post/comments', (req, res) => {
     Comment.findAll({
@@ -337,13 +400,17 @@ app.post('/blogs/:blog/posts/:post/comments/:comment', oidc.ensureAuthenticated(
 
 
 
+// TODO: finish REST API calls
 
 
 
 
 
-
-/*** END REST API ***/
+/*** 
+ * 
+ * END REST API 
+ * 
+ * ***/
 
 
 

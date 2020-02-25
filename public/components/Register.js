@@ -1,4 +1,24 @@
-'use strict' 
+/***** 
+ * 
+ *  Register.js 
+ *  Created by: Aleena Watson
+ *  Date: 2.25.2020
+ * 
+ * 
+ *  In order to comment on a post, you must be registered.
+ *  This component takes information needed by Okta in order
+ *  to register with them.
+ * 
+ *  Future improvements:
+ *  - add name/username into database to be able to display 
+ *    when a user makes a comment, or a blogger wants to 
+ *    display their information 
+ *  - create different registration page for a 'reader' only
+ *    who does not care about posting their own blogs.
+ * 
+ *
+ * ******/ 
+
 
 function Register() {
     return (
@@ -7,7 +27,7 @@ function Register() {
             <div className="card mt-4 card-body" Style="width: 100%;">
                 <form action="/register" method="post">
                     <div>
-                        <label>First Name</label>
+                        <label Style="padding: 10px;">First Name:</label>
                         <input
                             required
                             name="firstName"
@@ -15,7 +35,7 @@ function Register() {
                         />
                     </div>
                     <div>
-                        <label>Last Name</label>
+                        <label Style="padding: 10px;">Last Name:</label>
                         <input
                             required
                             name="lastName"
@@ -23,7 +43,7 @@ function Register() {
                         />
                     </div>
                     <div>
-                        <label>email</label>
+                        <label Style="padding: 10px;">Email:</label>
                         <input
                             required
                             name="email"
@@ -31,7 +51,7 @@ function Register() {
                         />
                     </div>
                     <div>
-                        <label>Password</label>
+                        <label Style="padding: 10px;">Password:</label>
                         <input
                             required
                             name="password"
@@ -39,9 +59,8 @@ function Register() {
                         />
                     </div>
 
-                    <button type="submit" 
-                            class="btn btn-primary">
-                                Register
+                    <button type="submit" className="btn btn-primary">
+                        Register
                     </button>
                 </form>
             </div>
