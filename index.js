@@ -150,6 +150,9 @@ app.get('/register', (req, res) => {
 })
 
 app.post('/register', async (req, res) => {
+    if(!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password){
+        return res.end()
+    }
     try {
         await client.createUser({
             profile: {
@@ -160,7 +163,7 @@ app.post('/register', async (req, res) => {
             },
             credentials: {
                 password: {
-                value: req.body.password
+                    value: req.body.password
                 }
             }
         })
@@ -254,6 +257,9 @@ app.get('/blogs', oidc.ensureAuthenticated(), (req, res) => {
 
 // Create new blog
 app.post('/blogs', oidc.ensureAuthenticated(), (req, res) => {
+    if(!req.body.title || !req.body.description || !req.body.theme){
+        return res.end()
+    }
     Blog.create({
         user: req.userContext.userinfo.sub, 
         title: req.body.title,
@@ -268,6 +274,9 @@ app.post('/blogs', oidc.ensureAuthenticated(), (req, res) => {
 
 // Update blog 
 app.put('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
+    if(!req.body.title || !req.body.description || !req.body.theme){
+        return res.end()
+    }
     Blog.update({
         title: req.body.title,
         description: req.body.description,
@@ -329,6 +338,9 @@ app.get('/blogs/:blog/posts', (req, res) => {
 
 // Create new blog post
 app.post('/blogs/:blog/posts', oidc.ensureAuthenticated(), (req, res) => {
+    if(!req.body.title || !req.body.content){
+        return res.end()
+    }
     Post.create({
         blogId: req.params.blog,
         user: req.userContext.userinfo.sub, 
@@ -343,6 +355,9 @@ app.post('/blogs/:blog/posts', oidc.ensureAuthenticated(), (req, res) => {
 
 // Update blog post
 app.put('/blogs/:blog/posts/:post', oidc.ensureAuthenticated(), (req, res) => {
+    if(!req.body.title || !req.body.content){
+        return res.end()
+    }
     Post.update({
         title: req.body.title,
         content: req.body.content
@@ -402,6 +417,9 @@ app.get('/blogs/:blog/posts/:post/comments', (req, res) => {
 
 // Create comment on blog post
 app.post('/blogs/:blog/posts/:post/comments', oidc.ensureAuthenticated(), (req, res) => {
+    if(!req.body.content){
+        return res.end()
+    }
     Comment.create({
         postId: req.params.post,
         user: req.userContext.userinfo.sub, 
@@ -415,6 +433,9 @@ app.post('/blogs/:blog/posts/:post/comments', oidc.ensureAuthenticated(), (req, 
 
 // Update comment
 app.post('/blogs/:blog/posts/:post/comments/:comment', oidc.ensureAuthenticated(), (req, res) => {
+    if(!req.body.content){
+        return res.end()
+    }
     Comment.update({
         content: req.body.content
     }, {
