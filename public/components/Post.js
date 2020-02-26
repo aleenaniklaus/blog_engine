@@ -23,7 +23,7 @@ const Comment = ({ item }) => {
             <div className="card-body">
                 {/* User id showing up which is not ideal, if username is desired, would need to change database tables */}
                 {/* <a href={"/p/" + id}><h5 className="card-title">{user || "No User"}</h5></a> */}  
-                <p className="card-text">{content || "No Content"}</p>
+                <p className="card-text" Style="white-space: pre-line;">{content || "No Content"}</p>
             </div>
         </div>
     )
@@ -98,10 +98,14 @@ class Post extends React.Component {
                 <AppNav />
                 <div className="card mt-4" Style="width: 100%;">
                     <div className="card-body">
+                        <div className=" btn-sm" Style="padding: 10px 10px 20px 0;">
+                            <a className="btn btn-outline-info btn-sm" href={"/b/" + this.state.post.blogId}>Blog Homepage</a>
+                        </div>
                         <a href={"/p/" + this.state.post.id}><h5 className="card-title">{this.state.post.title || "No Title"}</h5></a>
-                        <p className="card-text">{this.state.post.content || "No Content"}</p>
+                        <p className="card-text" Style="white-space: pre-line;">{this.state.post.content || "No Content"}</p>
                     </div>
                 </div>
+                <div className="card mt-4 bg-info text-white" Style="padding: 10px; width: 100%">Comments</div>
                 {
                     this.state.comments.length > 0 ? (
                         this.state.comments.map(item =>
@@ -117,15 +121,15 @@ class Post extends React.Component {
                         <div className="card mt-4" Style="width: 100%;">
                             <div className="card-body">
                                 <form onSubmit={this.handleSubmit}>
-                                    <div className="input-group input-group-sm mb-3">
-                                        <textarea name="content" className="form-control" placeholder="Content"></textarea>
+                                    <div className="mb-3">
+                                        <textarea name="content" rows="3" className="form-control" placeholder="Comment"></textarea>
                                     </div>
                                     <button type="submit" className="btn btn-info btn-sm ml-2">Comment</button>
                                 </form>
                             </div>
                         </div>
                     ) : (
-                        <div className="card mt-4" Style="width: 100%;">
+                        <div className="card mt-4 text-white bg-secondary" Style="width: 100%;">
                             <div className="card-body">Please login to make a comment</div>
                         </div>
                     )

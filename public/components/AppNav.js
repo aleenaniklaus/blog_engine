@@ -47,13 +47,13 @@ class AppNav extends React.Component {
                 {
                     this.state.user.loggedIn == true ? (
                         <span>
-                            <a role="button" className="btn btn-outline-info navbar-btn" href="/admin">Admin</a>
-                            <a role="button" className="btn btn-outline-info navbar-btn" href="/logout">Logout</a>
+                            <a role="button" className="btn btn-outline-info navbar-btn ml-2" href="/admin">Admin</a>
+                            <a role="button" className="btn btn-outline-info navbar-btn ml-2" href="/logout">Logout</a>
                         </span>
                     ) : (
                         <span>
-                            <a role="button" className="btn btn-outline-info navbar-btn" href="/register">Register</a>
-                            <a role="button" className="btn btn-outline-info navbar-btn" href="/login">Login</a>
+                            <a role="button" className="btn btn-outline-info navbar-btn ml-2" href="/register">Register</a>
+                            <a role="button" className="btn btn-outline-info navbar-btn ml-2" href="/login">Login</a>
                         </span>
                     )
                 }

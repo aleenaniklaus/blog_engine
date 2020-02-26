@@ -14,7 +14,6 @@
  *****/
 
 
-
 require('dotenv').config({ path: process.cwd() + '/environment' })
 const express = require('express')
 const path = require('path')
@@ -120,11 +119,11 @@ app.get('/p/:postId', (req, res) => {
 })
 
 app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
-    res.sendFile(path.join(__dirname, './public/admin.html'))
+    res.sendFile(path.join(__dirname, './public/admin-blogs.html'))
 })
 
 app.get('/admin/:blogId', oidc.ensureAuthenticated(), (req, res) => {
-    res.sendFile(path.join(__dirname, './public/blog-posts.html'))
+    res.sendFile(path.join(__dirname, './public/admin-posts.html'))
 })
 
 app.get('/logout', (req, res) => {
@@ -137,7 +136,7 @@ app.get('/logout', (req, res) => {
         `${process.env.OKTA_ORG_URL}/oauth2/default/v1/logout?${params}`
         )
     } else {
-        res.redirect('/')
+        res.redirect('/public/home.html')
     }
 })
 
@@ -206,6 +205,7 @@ const Blog = database.define('blogs', {
     description: Sequelize.TEXT
 })
 const Post = database.define('posts', {
+    user: Sequelize.STRING,
     title: Sequelize.STRING,
     content: Sequelize.TEXT
 })
@@ -323,6 +323,7 @@ app.get('/blogs/:blog/posts', (req, res) => {
 app.post('/blogs/:blog/posts', oidc.ensureAuthenticated(), (req, res) => {
     Post.create({
         blogId: req.params.blog,
+        user: req.userContext.userinfo.sub, 
         title: req.body.title,
         content: req.body.content
     }).then(() => {

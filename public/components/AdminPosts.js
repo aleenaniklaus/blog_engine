@@ -28,11 +28,12 @@ const Post = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) =>
                     <form onSubmit={handleSubmit}>
                         <input type="hidden" name="id" value={item.id} />
                         <div className="input-group input-group-sm mb-3">
-                            <input type="text" name="title" className="form-control" placeholder="Title" defaultValue={title} />
+                            <input type="text" name="title" className="form-control" placeholder="Post Title" defaultValue={title} />
                         </div>
-                        <div className="input-group input-group-sm mb-3">
-                            <textarea name="content" className="form-control" placeholder="content" defaultValue={content}></textarea>
+                        <div className="mb-3">
+                            <textarea name="content" className="form-control" rows="15" cols="50" placeholder="Post Content" defaultValue={content}></textarea>
                         </div>
+                        
                         <button type="button" className="btn btn-outline-secondary btn-sm" onClick={handleCancel}>Cancel</button>
                         <button type="submit" className="btn btn-info btn-sm ml-2">Save</button>
                     </form>
@@ -44,7 +45,7 @@ const Post = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) =>
             <div className="card mt-4" Style="width: 100%;">
                 <div className="card-body">
                     <h5 className="card-title">{title || "No Title"}</h5>
-                    <p className="card-text">{content || "No Content"}</p>
+                    <p className="card-text" Style="white-space: pre-line;">{content || "No Content"}</p>
                     <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleDelete}>Delete</button>
                     <button type="submit" className="btn btn-info btn-sm ml-2" onClick={handleEdit}>Edit</button>
                 </div>
@@ -53,7 +54,7 @@ const Post = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) =>
     }
 }
 
-class BlogPosts extends React.Component {
+class AdminPosts extends React.Component {
     constructor(props) {
         super(props)
         this.state = { data: [] }
@@ -121,7 +122,7 @@ class BlogPosts extends React.Component {
         }
 
         if (data.get('id')) {
-            await fetch(`/blogs/${this.blogId}/${data.get('postId')}`, {
+            await fetch(`/blogs/${this.blogId}/posts/${data.get('id')}`, {
                 method: 'PUT',
                 headers,
                 body,
@@ -164,4 +165,4 @@ class BlogPosts extends React.Component {
 }
 
 const domContainer = document.querySelector('#root')
-ReactDOM.render(React.createElement(BlogPosts), domContainer)
+ReactDOM.render(React.createElement(AdminPosts), domContainer)

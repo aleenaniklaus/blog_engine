@@ -1,6 +1,6 @@
 /***** 
  * 
- *  Admin.js 
+ *  AdminBlogs.js 
  *  Created by: Aleena Watson
  *  Date: 2.25.2020
  * 
@@ -33,10 +33,10 @@ if (editMode) {
                 <form onSubmit={handleSubmit}>
                     <input type="hidden" name="id" value={item.id} />
                     <div className="input-group input-group-sm mb-3">
-                        <input type="text" name="title" className="form-control" placeholder="Title" defaultValue={title} />
+                        <input type="text" name="title" className="form-control" placeholder="Blog Title" defaultValue={title} />
                     </div>
-                    <div className="input-group input-group-sm mb-3">
-                        <textarea name="description" className="form-control" placeholder="Description" defaultValue={description}></textarea>
+                    <div className="mb-3">
+                        <textarea name="description" className="form-control" rows="5" cols="50" placeholder="Blog Description" defaultValue={description}></textarea>
                     </div>
                     <button type="button" className="btn btn-outline-secondary btn-sm" onClick={handleCancel}>Cancel</button>
                     <button type="submit" className="btn btn-info btn-sm ml-2">Save</button>
@@ -48,18 +48,19 @@ if (editMode) {
         return (
             <div className="card mt-4" Style="width: 100%;">
                 <div className="card-body">
-                        <a href={"/b/" + id}><h5 className="card-title">{title || "No Title"}</h5></a>
-                    <p className="card-text">{description || "No Description"}</p>
-                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleDelete}>Delete</button>
+                    <h5 className="card-title">{title || "No Title"}</h5>
+                    <p className="card-text" Style="white-space: pre-line;">{description || "No Description"}</p>
+                    <a className="btn btn-outline-info btn-sm ml-2" href={"/b/" + id}>Preview Blog</a>
                     <button type="submit" className="btn btn-info btn-sm ml-2" onClick={handleEdit}>Edit</button>
-                    <a className="btn btn-outline-dark btn-sm ml-2 float-right" href={"/admin/" + id}>Posts</a>
+                    <button type="button" className="btn btn-outline-danger btn-sm ml-2" onClick={handleDelete}>Delete</button>
+                    <a className="btn btn-outline-dark btn-sm ml-2 float-right" href={"/admin/" + id}>Edit Posts</a>
                 </div>
             </div>
         )
     }
 }
 
-class Admin extends React.Component {
+class AdminBlogs extends React.Component {
     constructor(props) {
         super(props)
         this.state = { data: [] }
@@ -170,4 +171,4 @@ class Admin extends React.Component {
 }
 
 const domContainer = document.querySelector('#root')
-ReactDOM.render(React.createElement(Admin), domContainer);
+ReactDOM.render(React.createElement(AdminBlogs), domContainer);

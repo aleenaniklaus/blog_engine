@@ -25,7 +25,7 @@ const Blog = ({ item }) => {
         <div className="card mt-4" Style="width: 100%;">
             <div className="card-body">
                 <a href={"/b/" + id}><h5 className="card-title">{title || "No Title"}</h5></a>
-                <p className="card-text">{description || "No Description"}</p>
+                <p className="card-text" Style="white-space: pre-line;">{description || "No Description"}</p>
             </div>
         </div>
     )

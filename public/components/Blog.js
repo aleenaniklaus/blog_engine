@@ -21,7 +21,7 @@ const Post = ({ item }) => {
         <div className="card mt-4" Style="width: 100%;">
             <div className="card-body">
                 <a href={"/p/" + id}><h5 className="card-title">{title || "No Title"}</h5></a>
-                <p className="card-text">{content || "No Content"}</p>
+                <p className="card-text" Style="white-space: pre-line;">{content || "No Content"}</p>
             </div>
         </div>
     )
@@ -63,7 +63,7 @@ class Blog extends React.Component {
                 <div className="card mt-4" Style="width: 100%; background-color: #e3f2fd">
                     <div className="card-body">
                         <a href={"/b/" + this.state.blog.id}><h5 className="card-title">{this.state.blog.title || "No Title"}</h5></a>
-                        <p className="card-text">{this.state.blog.description || "No Description"}</p>
+                        <p className="card-text" Style="white-space: pre-line;">{this.state.blog.description || "No Description"}</p>
                     </div>
                 </div>
                 {
