@@ -15,12 +15,12 @@
 
 
 const Post = ({ item }) => {
-   const { id, title, content } = item
+   const { blogId, id, title, content } = item
 
     return (
         <div className="card mt-4" Style="width: 100%;">
             <div className="card-body">
-                <a href={"/p/" + id}><h5 className="card-title">{title || "No Title"}</h5></a>
+                <a href={"/b/" + blogId + "/p/" + id}><h5 className="card-title">{title || "No Title"}</h5></a>
                 <p className="card-text" Style="white-space: pre-line;">{content || "No Content"}</p>
             </div>
         </div>
@@ -33,7 +33,8 @@ class Blog extends React.Component {
        this.state = { 
             blog: {
                 title: "", 
-                description: ""
+                description: "",
+                theme: "light"
             }, 
             posts: [] 
         }
@@ -57,10 +58,16 @@ class Blog extends React.Component {
     }
 
     render() {
+        if(this.state.blog.theme === "light") {
+            document.getElementById("bootstrap").href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        }
+        else if(this.state.blog.theme === "dark"){
+            document.getElementById("bootstrap").href = "https://bootswatch.com/4/darkly/bootstrap.css"
+        }
         return (
             <div>
                 <AppNav />
-                <div className="card mt-4" Style="width: 100%; background-color: #e3f2fd">
+                <div className="card mt-4" Style="width: 100%;">
                     <div className="card-body">
                         <a href={"/b/" + this.state.blog.id}><h5 className="card-title">{this.state.blog.title || "No Title"}</h5></a>
                         <p className="card-text" Style="white-space: pre-line;">{this.state.blog.description || "No Description"}</p>

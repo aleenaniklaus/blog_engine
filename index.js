@@ -1,5 +1,10 @@
 /*****
  * 
+ *  index.js
+ *  Created by: Aleena Watson
+ *  Date: 2.23.2020
+ * 
+ * 
  *  Backend using Node.js/Express.jsfor Blog Engine
  *  and uses Okta NodeJS OIDC Middleware for authenticaion.
  *  SQLite database and Sequelize for database manipulation. 
@@ -114,7 +119,7 @@ app.get('/b/:blogId', (req, res) => {
     res.sendFile(path.join(__dirname, './public/blog.html'))
 })
 
-app.get('/p/:postId', (req, res) => {
+app.get('/b/:blogId/p/:postId', (req, res) => {
     res.sendFile(path.join(__dirname, './public/post.html'))
 })
 
@@ -202,7 +207,8 @@ const database = new Sequelize({
 const Blog = database.define('blogs', {
     user: Sequelize.STRING,
     title: Sequelize.STRING,
-    description: Sequelize.TEXT
+    description: Sequelize.TEXT,
+    theme: Sequelize.STRING
 })
 const Post = database.define('posts', {
     user: Sequelize.STRING,
@@ -251,7 +257,8 @@ app.post('/blogs', oidc.ensureAuthenticated(), (req, res) => {
     Blog.create({
         user: req.userContext.userinfo.sub, 
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        theme: req.body.theme
     }).then(() => {
         res.json({
             status: 'ok'
@@ -263,7 +270,8 @@ app.post('/blogs', oidc.ensureAuthenticated(), (req, res) => {
 app.put('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
     Blog.update({
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        theme: req.body.theme
     }, {
         where: { 
             user: req.userContext.userinfo.sub,
@@ -290,7 +298,7 @@ app.delete('/blogs/:blog', oidc.ensureAuthenticated(), (req, res) => {
     })
 })
 
-// Return blog title and description
+// Return blog title, description, and theme
 app.get('/blogs/:blog', (req, res) => {
     Blog.findAll({
         where: { 

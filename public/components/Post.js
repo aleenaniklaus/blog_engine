@@ -20,9 +20,7 @@ const Comment = ({ item }) => {
 
     return (
         <div className="card mt-4" Style="width: 100%;">
-            <div className="card-body">
-                {/* User id showing up which is not ideal, if username is desired, would need to change database tables */}
-                {/* <a href={"/p/" + id}><h5 className="card-title">{user || "No User"}</h5></a> */}  
+            <div className="card-body"> 
                 <p className="card-text" Style="white-space: pre-line;">{content || "No Content"}</p>
             </div>
         </div>
@@ -36,18 +34,24 @@ class Post extends React.Component {
             user: { 
                 loggedIn: false 
             },
+            blog: {
+                title: "", 
+                description: "",
+                theme: "light"
+            }, 
             post: {
                 title: "",
                 content: ""
             },
             comments: []
         }
-        this.blogId = 0 // Unknown but unnecessary
+        this.blogId = window.location.href.split("/").slice(-3)[0]
         this.postId = window.location.href.split("/").slice(-1)[0]
     }
 
     componentDidMount() {
         this.getUser()
+        this.getBlog()
         this.getPost()
         this.getComments()
     }
@@ -56,6 +60,12 @@ class Post extends React.Component {
         const response = await fetch(`/user`)
         const data = await response.json()
         this.setState( {user: data} )
+    }
+
+    getBlog = async () => {
+        const response = await fetch(`/blogs/${this.blogId}`)
+        const data = await response.json()
+        this.setState({ blog: data })
     }
 
     getPost = async () => {
@@ -93,6 +103,12 @@ class Post extends React.Component {
     }
 
     render() {
+        if(this.state.blog.theme === "light") {
+            document.getElementById("bootstrap").href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        }
+        else if(this.state.blog.theme === "dark"){
+            document.getElementById("bootstrap").href = "https://bootswatch.com/4/darkly/bootstrap.css"
+        }
         return (
             <div>
                 <AppNav />
@@ -101,7 +117,7 @@ class Post extends React.Component {
                         <div className=" btn-sm" Style="padding: 10px 10px 20px 0;">
                             <a className="btn btn-outline-info btn-sm" href={"/b/" + this.state.post.blogId}>Blog Homepage</a>
                         </div>
-                        <a href={"/p/" + this.state.post.id}><h5 className="card-title">{this.state.post.title || "No Title"}</h5></a>
+                        <a href={"/b/" + this.state.blog.id + "/p/" + this.state.post.id}><h5 className="card-title">{this.state.post.title || "No Title"}</h5></a>
                         <p className="card-text" Style="white-space: pre-line;">{this.state.post.content || "No Content"}</p>
                     </div>
                 </div>
@@ -124,7 +140,7 @@ class Post extends React.Component {
                                     <div className="mb-3">
                                         <textarea name="content" rows="3" className="form-control" placeholder="Comment"></textarea>
                                     </div>
-                                    <button type="submit" className="btn btn-info btn-sm ml-2">Comment</button>
+                                    <button type="submit" className="btn btn-info btn-sm">Comment</button>
                                 </form>
                             </div>
                         </div>

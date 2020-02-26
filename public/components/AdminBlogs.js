@@ -24,7 +24,7 @@
 
 
 const Blog = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) => {
-const { id, title, description, editMode } = item
+const { id, title, description, theme, editMode } = item
 
 if (editMode) {
     return (
@@ -38,6 +38,12 @@ if (editMode) {
                     <div className="mb-3">
                         <textarea name="description" className="form-control" rows="5" cols="50" placeholder="Blog Description" defaultValue={description}></textarea>
                     </div>
+                    <div className="mb-3">
+                        <select name="theme" className="form-control" defaultValue={theme}>
+                            <option value="light">light</option>
+                            <option value="dark">dark</option>
+                        </select>
+                    </div>
                     <button type="button" className="btn btn-outline-secondary btn-sm" onClick={handleCancel}>Cancel</button>
                     <button type="submit" className="btn btn-info btn-sm ml-2">Save</button>
                 </form>
@@ -50,10 +56,11 @@ if (editMode) {
                 <div className="card-body">
                     <h5 className="card-title">{title || "No Title"}</h5>
                     <p className="card-text" Style="white-space: pre-line;">{description || "No Description"}</p>
+                    <a className="btn btn-outline-dark btn-sm" onClick={handleEdit}>Theme: {theme}</a>
                     <a className="btn btn-outline-info btn-sm ml-2" href={"/b/" + id}>Preview Blog</a>
                     <button type="submit" className="btn btn-info btn-sm ml-2" onClick={handleEdit}>Edit</button>
                     <button type="button" className="btn btn-outline-danger btn-sm ml-2" onClick={handleDelete}>Delete</button>
-                    <a className="btn btn-outline-dark btn-sm ml-2 float-right" href={"/admin/" + id}>Edit Posts</a>
+                    <a className="btn btn-outline-dark btn-sm float-right" href={"/admin/" + id}>Edit Posts</a>
                 </div>
             </div>
         )
@@ -82,7 +89,8 @@ class AdminBlogs extends React.Component {
         data.unshift({
             editMode: true,
             title: "",
-            description: ""
+            description: "",
+            theme: "light"
         })
         this.setState({ data })
     }
@@ -119,6 +127,7 @@ class AdminBlogs extends React.Component {
         const body = JSON.stringify({
             title: data.get('title'),
             description: data.get('description'),
+            theme: data.get('theme')
         })
 
         const headers = {

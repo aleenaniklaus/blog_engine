@@ -1,6 +1,6 @@
 /***** 
  * 
- *  BlogPosts.js 
+ *  AdminPosts.js 
  *  Created by: Aleena Watson
  *  Date: 2.25.2020
  * 

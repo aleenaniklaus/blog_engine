@@ -5,16 +5,16 @@
 
 ##### General
 
-My Blog Space is a blog engine that allows multiple user logins via `Okta NodeJS OIDC Middleware` for authentication. Users can register securely with Okta via `Register` button in the top right-hand corner of the application or by simply going to `/register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may wish to see what their Blog Space looks like, similar to a preview option. They may see their Blog Space by clicking on the title of the blog.
+My Blog Space is a blog engine that allows multiple user logins via `Okta NodeJS OIDC Middleware` for authentication. Users can register securely with Okta via `Register` button in the top right-hand corner of the application or by simply going to `/register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Edit Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may see what their Blog Space looks like by clicking on `Preview Blog` button.
 
 ##### Comments
 
-Posts may be commented on if a user is logged in. If a user is not logged in, they are still able to view Blog Spaces, they will just not have the comment feature available. 
+Posts may be commented on if a user is logged in. If a user is not logged in, they are still able to view Blog Spaces and posts, they will just not have the option to comment. 
 
 ##### Home page
 The home page has a nice feature that displays 3 random blogs. This gives bloggers visibility to anyone curiously viewing the home page. Each time a user visits the home page they will be served with different blogs, and might find a new genre they wouldn't otherwise have found. 
 
-This is a nice feature since it leverages the power of having a centralized engine where any and all blogs and posts are available to any user for viewing. It also may be a starting point for solving the problem of new or niche bloggers looking for readers. 
+This is a nice feature since it leverages the power of having a centralized blog engine where any and all blogs and posts are available to any user for viewing. It also may be a starting point for solving the problem of new or niche bloggers looking for new readers. 
 
 
 ### Installation
@@ -93,15 +93,21 @@ Open up your browser to `http://localhost:3000/` and enjoy!
 - Explanatory comments at top of files
 - Docs on application design
 - Error handling check/creation
+- Multiline blog descriptions, post content, and comments
+- Theming for bloggers
 
 #### TODO:
-- Theming for bloggers
+- Unit tests
+- Input sanitization
 
 #### STRETCH:
 - ERD & Swim lane diagrams
 - Header changes per page
 - Login for commenting - new registration page
 - API docs
+- Database management for deleted comments
+- Images in blog post
+
 
 
 ### ATTRIBUTION
