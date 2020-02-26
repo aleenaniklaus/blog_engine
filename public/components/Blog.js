@@ -67,9 +67,9 @@ class Blog extends React.Component {
         return (
             <div>
                 <AppNav />
-                <div className="card mt-4" Style="width: 100%;">
+                <div className="card mt-4 bg-info text-white" Style="width: 100%;">
                     <div className="card-body">
-                        <a href={"/b/" + this.state.blog.id}><h5 className="card-title">{this.state.blog.title || "No Title"}</h5></a>
+                        <h5 className="card-title">{this.state.blog.title || "No Title"}</h5>
                         <p className="card-text" Style="white-space: pre-line;">{this.state.blog.description || "No Description"}</p>
                     </div>
                 </div>
