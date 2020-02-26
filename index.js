@@ -61,9 +61,11 @@ const oidc = new ExpressOIDC({
 })
 
 app.use(oidc.router)
-app.use(cors())
-app.use(bodyParser.urlencoded())
-app.use(bodyParser.json())
+
+oidc.on('error', err => {
+    // An error occurred while setting up OIDC
+    console.log("oidc error: ", err)
+})
 
 /*****
  * 
@@ -72,14 +74,34 @@ app.use(bodyParser.json())
  *****/
 
 
+
+
+/*****
+ * 
+ * COMMON MIDDLEWARE
+ * 
+ *****/
+
+app.use(cors())
+app.use(bodyParser.urlencoded())
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
+/*****
+ * 
+ * END COMMON MIDDLEWARE
+ * 
+ *****/
 
-/****
+
+
+
+
+/*****
  * 
  * ROUTES
  * 
- ****/
+ *****/
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/home.html'))
@@ -151,6 +173,11 @@ app.get('/user', (req, res) => {
     })
 })
 
+// Returns random blogs for home page
+app.get('/random-blogs', async (req, res) => {
+    const [results, metadata] = await database.query("SELECT * FROM blogs ORDER BY RANDOM() LIMIT 3")
+    res.json(results)
+})
 
 /****
  * 
@@ -190,25 +217,20 @@ const Comment = database.define('comments', {
 Blog.hasMany(Post)
 Post.hasMany(Comment)
 
-/*** 
+/***** 
  * 
  * END DATABASE 
  * 
- * ***/
+ * *****/
 
 
-// Returns random blogs for home page
-app.get('/random-blogs', async (req, res) => {
-    const [results, metadata] = await database.query("SELECT * FROM blogs ORDER BY RANDOM() LIMIT 3")
-    res.json(results)
-})
 
 
-/*** 
+/***** 
  * 
  * DEFINE REST API 
  * 
- * ***/
+ * *****/
 
 
 /***** BLOG CALLS ******/
@@ -398,30 +420,15 @@ app.post('/blogs/:blog/posts/:post/comments/:comment', oidc.ensureAuthenticated(
     })
 })
 
-
-
-// TODO: finish REST API calls
-
-
-
-
-
 /*** 
  * 
  * END REST API 
  * 
  * ***/
 
-
-
-
+// Initialize database, wait for OIDC to be ready, start express server
 database.sync().then(() => {
     oidc.on('ready', () => {
         app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
     })
-})
-
-oidc.on('error', err => {
-    // An error occurred while setting up OIDC
-    console.log("oidc error: ", err)
 })
