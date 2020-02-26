@@ -5,16 +5,16 @@
 
 ##### General
 
-My Blog Space is a blog engine that allows multiple user logins via Okta NodeJS OIDC Middleware for authentication. User can register securly with Okta via `Register` button in top right hand corner of the applicationn or by simply going to `/register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may wish to see what their Blog Space looks like, similar to a preview option. They may see their Blog Space by clicking on the title of the blog. 
+My Blog Space is a blog engine that allows multiple user logins via `Okta NodeJS OIDC Middleware` for authentication. Users can register securely with Okta via `Register` button in the top right-hand corner of the application or by simply going to /`register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may wish to see what their Blog Space looks like, similar to a preview option. They may see their Blog Space by clicking on the title of the blog.
 
 ##### Comments
 
 Posts may be commented on if a user is logged in. If a user is not logged in, they are still able to view Blog Spaces, they will just not have the comment feature available. 
 
 ##### Home page
-Home page has a nice feature that displays 3 random blogs. This gives bloggers visibility to anyone curiously viewing the home page. Each time a user visits the home page, they will be served with different blogs, and might find a new genere they wouldn't otherwise have found. 
+The home page has a nice feature that displays 3 random blogs. This gives bloggers visibility to anyone curiously viewing the home page. Each time a user visits the home page they will be served with different blogs, and might find a new genre they wouldn't otherwise have found. 
 
-This is a nice feature since it leverages power of having a centralized engine where any and all blogs and posts are avaiable to any user for viewing. It also may be a starting point for solving the problem of new or niche bloggers looking for readers. 
+This is a nice feature since it leverages the power of having a centralized engine where any and all blogs and posts are available to any user for viewing. It also may be a starting point for solving the problem of new or niche bloggers looking for readers. 
 
 
 ### Installation
@@ -28,7 +28,7 @@ Install `node` and `npm` if you haven't already.
 Download this repository onto your local machine.
 
 #### Step 3:
-Create a free account with Okta (for authentication, login and logout): https://developer.okta.com/.
+Create a free account with Okta (for authentication, login, and logout): https://developer.okta.com/.
 
 #### Step 4:
 After logging into Okta, you will need to configure it. 
@@ -44,18 +44,18 @@ After logging into Okta, you will need to configure it.
     - `Group assignments`: use `Everyone` (should default to this value)
     - `Grant type allowed`: check `Authorization Code`
     - Click `Done`
- - Next your `Client ID` and `Client secret` will pop up at the bottom of the screen, insert those values into the `environment` file under `OKTA_CLIENT_ID` and `OKTA_CLIENT_SECRET` accordingly, in single quotes.
+ - Next, your `Client ID` and `Client secret` will pop up at the bottom of the screen, insert those values into the `environment` file under `OKTA_CLIENT_ID` and `OKTA_CLIENT_SECRET` accordingly, in single quotes.
 
 #### Step 5:
-We need to finish setting up the enviornment file in order for the application to run properly. At this point, you should have everything filled in except `OKTA_TOKEN` and `RANDOM_SECRET_WORD`. 
+We need to finish setting up the `environment` file in order for the application to run properly. At this point, you should have everything filled in except `OKTA_TOKEN` and `RANDOM_SECRET_WORD`. 
 
 ##### Step 5a.
 You may choose your `RANDOM_SECRET_WORD` as anything you like, but please consider using a strong password generator. Enter your secret word in single quotes. 
 
 ##### Step 5b.
 Generate `OKTA_TOKEN`:
- - Login to your Okta account
- - Hover over `API` in navbar and click `Tokens`
+ - Log in to your Okta account
+ - Hover over `API` in the navbar and click `Tokens`
  - On the left side of the screen, click `Create Token`
  - A popup box will appear asking you to name your token. Pick something that makes sense for your project - maybe something related to how you named your Okta application
  - Next, a `Token Value` will pop up, use the editor to copy the token, and insert it into the `environment` file under `OKTA_TOKEN`
@@ -120,7 +120,7 @@ https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes
 Changes from this attribution:
  - Attribution uses `mustache`, whereas this implementation uses `React`
  - No use of `render`
- - Instead of `'/'` redirecting to `'/register'` we explicitly create a route to `'/register'`
+ - Instead of `'/'` redirects to `'/register'` we explicitly create a route to `'/register'`
     - Other logic is changed in this accordingly in `index.js` line 86-112
 
 ##### Logout functionality (virtually no change):
