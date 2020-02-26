@@ -5,7 +5,7 @@
 
 ##### General
 
-My Blog Space is a blog engine that allows multiple user logins via `Okta NodeJS OIDC Middleware` for authentication. Users can register securely with Okta via `Register` button in the top right-hand corner of the application or by simply going to /`register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may wish to see what their Blog Space looks like, similar to a preview option. They may see their Blog Space by clicking on the title of the blog.
+My Blog Space is a blog engine that allows multiple user logins via `Okta NodeJS OIDC Middleware` for authentication. Users can register securely with Okta via `Register` button in the top right-hand corner of the application or by simply going to `/register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may wish to see what their Blog Space looks like, similar to a preview option. They may see their Blog Space by clicking on the title of the blog.
 
 ##### Comments
 
