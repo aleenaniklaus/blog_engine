@@ -1,8 +1,8 @@
 /*****
  * 
  *  Backend using Node.js/Express.jsfor Blog Engine
- *  and uses Okta for authenticaion.
- *  SQLite for easy-to-use and easy-setup database. 
+ *  and uses Okta NodeJS OIDC Middleware for authenticaion.
+ *  SQLite database and Sequelize for database manipulation. 
  *  All routes and database calls are in this file.
  * 
  *  Future improvements:
