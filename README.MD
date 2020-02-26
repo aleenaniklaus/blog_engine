@@ -3,11 +3,18 @@
 
 ### Overview
 
-Blog engine that allows for multi-user login via Okta NodeJS OIDC Middleware for authentication. Once a user has registered, they will be taken to their Admin page. Here they may create 0-many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click "Posts" to be taken to the post blog page for that blog. There, they may create, edit, or delete a post.
+##### General
 
-Posts may be commented on if a user is logged in. If a user is not logged in, they are still able to view blogs and posts. 
+My Blog Space is a blog engine that allows multiple user logins via Okta NodeJS OIDC Middleware for authentication. User can register securly with Okta via `Register` button in top right hand corner of the applicationn or by simply going to `/register` page. Then they will be taken to their `Admin` page. Here they may create zero to many blogs. Once a blog is created, they may edit or delete the blog. From there, a user can click `Posts` button of a blog (in the `Admin` page) to be taken to their posts for a given blog. Here, they may create, edit, or delete posts and create zero to many posts. A user may wish to see what their Blog Space looks like, similar to a preview option. They may see their Blog Space by clicking on the title of the blog. 
 
-Home page has a nice feature that displays 3 random blogs giving it's bloggers visibility to anyone curiously viewing the home page.
+##### Comments
+
+Posts may be commented on if a user is logged in. If a user is not logged in, they are still able to view Blog Spaces, they will just not have the comment feature available. 
+
+##### Home page
+Home page has a nice feature that displays 3 random blogs. This gives bloggers visibility to anyone curiously viewing the home page. Each time a user visits the home page, they will be served with different blogs, and might find a new genere they wouldn't otherwise have found. 
+
+This is a nice feature since it leverages power of having a centralized engine where any and all blogs and posts are avaiable to any user for viewing. It also may be a starting point for solving the problem of new or niche bloggers looking for readers. 
 
 
 ### Installation
