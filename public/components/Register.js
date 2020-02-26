@@ -20,52 +20,82 @@
  * ******/ 
 
 
-function Register() {
-    return (
-        <div>
-            <AppNav />
-            <div className="card mt-4 card-body" Style="width: 100%;">
-                <form action="/register" method="post">
-                    <div>
-                        <label Style="padding: 10px;">First Name:</label>
-                        <input
-                            required
-                            name="firstName"
-                            type="text"
-                        />
-                    </div>
-                    <div>
-                        <label Style="padding: 10px;">Last Name:</label>
-                        <input
-                            required
-                            name="lastName"
-                            type="text"
-                        />
-                    </div>
-                    <div>
-                        <label Style="padding: 10px;">Email:</label>
-                        <input
-                            required
-                            name="email"
-                            type="text"
-                        />
-                    </div>
-                    <div>
-                        <label Style="padding: 10px;">Password:</label>
-                        <input
-                            required
-                            name="password"
-                            type="password"
-                        />
-                    </div>
+class Register extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { 
+            registration: { 
+                message: '' 
+            }
+        }
+    }
 
-                    <button type="submit" className="btn btn-primary">
-                        Register
-                    </button>
-                </form>
+    componentDidMount() {
+        this.getRegistration()
+    }
+
+    getRegistration = async () => {
+        const response = await fetch(`/registration`)
+        const data = await response.json()
+        this.setState( {registration: data} )
+    }
+
+    render() {
+        return (
+            <div>
+                <AppNav />
+                {
+                    this.state.registration.message !== '' ? (
+                        <div className="card mt-4 cardbody" Style="width: 100%;">
+                            <div className="card-body">
+                                {this.state.registration.message}
+                            </div>
+                        </div>
+                    ) : null
+                }
+                <div className="card mt-4 card-body" Style="width: 100%;">
+                    <form action="/register" method="post">
+                        <div>
+                            <label Style="padding: 10px;">First Name:</label>
+                            <input
+                                required
+                                name="firstName"
+                                type="text"
+                            />
+                        </div>
+                        <div>
+                            <label Style="padding: 10px;">Last Name:</label>
+                            <input
+                                required
+                                name="lastName"
+                                type="text"
+                            />
+                        </div>
+                        <div>
+                            <label Style="padding: 10px;">Username/Email:</label>
+                            <input
+                                required
+                                name="email"
+                                type="text"
+                            />
+                        </div>
+                        <div>
+                            <label Style="padding: 10px;">Password:</label>
+                            <input
+                                required
+                                name="password"
+                                type="password"
+                            />
+                        </div>
+
+                        <button type="submit" className="btn btn-primary">
+                            Register
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-    )   
+        )
+    }
 }
 
 const domContainer = document.querySelector('#root')

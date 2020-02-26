@@ -43,7 +43,7 @@ class AppNav extends React.Component {
     render() {
         return (
                 <nav className="navbar navbar-dark bg-dark">
-                <div className="navbar-brand">My Blog Space</div>
+                <div className="navbar-brand">Blog Space</div>
                 {
                     this.state.user.loggedIn == true ? (
                         <span>

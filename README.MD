@@ -77,6 +77,12 @@ To run the application, use the following command:
 Open up your browser to `http://localhost:3000/` and enjoy!
 
 
+### UNIT TESTS
+To run unit tests, open a console and run the following:
+
+`npm test`
+
+
 
 #### FEATURES CREATED:
 - Admin, home, and register pages created using Okta
@@ -95,10 +101,11 @@ Open up your browser to `http://localhost:3000/` and enjoy!
 - Error handling check/creation
 - Multiline blog descriptions, post content, and comments
 - Theming for bloggers
+- Input sanitization
+- Unit tests
 
 #### TODO:
-- Unit tests
-- Input sanitization
+- More gracefully display error message for registration
 
 #### STRETCH:
 - ERD & Swim lane diagrams
@@ -124,7 +131,7 @@ Changes from this attribution:
 https://developer.okta.com/blog/2019/05/31/simple-auth-express-fifteen-minutes
 
 Changes from this attribution:
- - Attribution uses `mustache`, whereas this implementation uses `React`
+ - Attribution uses `Handlebars`, whereas this implementation uses `React`
  - No use of `render`
  - Instead of `'/'` redirects to `'/register'` we explicitly create a route to `'/register'`
     - Other logic is changed in this accordingly in `index.js` line 86-112

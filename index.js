@@ -19,7 +19,7 @@
  *****/
 
 
-require('dotenv').config({ path: process.cwd() + '/environment' })
+require('dotenv').config({ path: __dirname + '/environment' })
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
@@ -169,9 +169,15 @@ app.post('/register', async (req, res) => {
         })
         res.redirect('/login')
     } catch ({ errorCauses }) {
-        console.log(errorCauses) // TODO: more gracefully display error message for login
+        req.session.registration = errorCauses[0].errorSummary
         res.redirect('/register')
     }
+})
+
+app.get('/registration', (req, res) => {
+    res.json({
+        message: req.session.registration || ''
+    })
 })
 
 app.get('/user', (req, res) => {
@@ -462,3 +468,12 @@ database.sync().then(() => {
         app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
     })
 })
+
+module.exports = {
+    app,
+    oidc,
+    database,
+    Blog,
+    Post,
+    Comment
+}
